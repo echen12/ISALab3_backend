@@ -38,7 +38,6 @@ const server = http.createServer((req, res) => {
         let data = '';
 
         req.on('data', (chunk) => {
-            console.log(chunk.toString())
             data += chunk.toString();
         });
 
@@ -48,7 +47,7 @@ const server = http.createServer((req, res) => {
 
             if (queryParams.word === undefined || queryParams.definition === undefined || (dictionary.find(d => d.word === queryParams.word) !== undefined && dictionary.find(d => d.def === queryParams.definition) !== undefined)) {
                 res.statusCode = 400;
-                res.end('Invalid request body, both the word and definition must be provided.');
+                res.end('Invalid request body, both the word and definition must be provided or the word already exists.');
             }
             else if (queryParams.word && queryParams.definition) {
                 const newEntry = new DictionaryEntry(queryParams.word, queryParams.definition)
@@ -61,7 +60,7 @@ const server = http.createServer((req, res) => {
                 }
 
                 res.setHeader('Content-Type', 'application/json');
-                res.end(JSON.stringify({ message: 'POST request received', data: JSON.stringify(dictionary), numberOfReq: ++numRequests }));
+                res.end(JSON.stringify({ message: 'POST request received', data: dictionary, numberOfReq: ++numRequests }));
             }
         });
     } else {
