@@ -31,7 +31,7 @@ const server = http.createServer((req, res) => {
             res.end(JSON.stringify({ message: dictionary.find(d => d.word === urlQueryParams), numberOfReq: ++numRequests}));
         } else if (urlQueryParams === null || dictionary.find(d => d.word === urlQueryParams) === undefined) {
             res.statusCode = 404;
-            res.end(JSON.stringify({errorMessage: 'Not Found', numberOfReq: ++numRequests}));
+            res.end({errorMessage: 'Not Found', numberOfReq: ++numRequests});
         }
 
     } else if (req.method === 'POST' && url.pathname === "/api/definitions") {
@@ -48,7 +48,7 @@ const server = http.createServer((req, res) => {
 
             if (queryParams.word === undefined || queryParams.definition === undefined || (dictionary.find(d => d.word === queryParams.word) !== undefined && dictionary.find(d => d.def === queryParams.definition) !== undefined)) {
                 res.statusCode = 400;
-                res.end(JSON.stringify({errorMessage: 'Invalid request body, both the word and definition must be provided or the word already exists.', numberOfReq: ++numRequests}));
+                res.end({errorMessage: 'Invalid request body, both the word and definition must be provided or the word already exists.', numberOfReq: ++numRequests});
             }
             else if (queryParams.word && queryParams.definition) {
                 const newEntry = new DictionaryEntry(queryParams.word, queryParams.definition)
@@ -68,7 +68,7 @@ const server = http.createServer((req, res) => {
     } else {
         
         res.statusCode = 404;
-        res.end(JSON.stringify({errorMessage: 'Invalid request', numberOfReq: ++numRequests}));;
+        res.end({errorMessage: 'Invalid request', numberOfReq: ++numRequests});;
     }
 });
 
