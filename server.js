@@ -26,7 +26,7 @@ const server = http.createServer((req, res) => {
         
         console.log(dictionary.find(d => d.word === urlQueryParams))
         if (dictionary.find(d => d.word === urlQueryParams) !== undefined) {
-            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Content-Type', 'application/json', 'Access-Control-Allow-Origin', '*');
             res.end(JSON.stringify({ message: dictionary.find(d => d.word === urlQueryParams), numberOfReq: ++numRequests}));
         } else if (urlQueryParams === null || dictionary.find(d => d.word === urlQueryParams) === undefined) {
             res.statusCode = 404;
@@ -59,7 +59,7 @@ const server = http.createServer((req, res) => {
                     dictionary[dictIndex].def = queryParams.definition
                 }
 
-                res.setHeader('Content-Type', 'application/json');
+                res.setHeader('Content-Type', 'application/json', 'Access-Control-Allow-Origin', '*');
                 res.end(JSON.stringify({ message: 'POST request received', data: dictionary, numberOfReq: ++numRequests }));
             }
         });
